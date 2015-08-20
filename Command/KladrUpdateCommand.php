@@ -95,6 +95,11 @@ class KladrUpdateCommand extends ContainerAwareCommand
         $this->importTables($files);
     }
 
+    /**
+     * Import DBF files into database
+     *
+     * @param array $filenames
+     */
     protected function importTables($filenames)
     {
         foreach ($filenames as $entity => $filename) {
@@ -107,6 +112,14 @@ class KladrUpdateCommand extends ContainerAwareCommand
         }
     }
 
+    /**
+     * Import DBASE file into entity's mysql table
+     *
+     * @param string $entity_name
+     * @param string $filename
+     *
+     * @throws \Exception
+     */
     protected function importDbf($entity_name, $filename)
     {
         if ( !function_exists('dbase_open') ) {
@@ -117,10 +130,9 @@ class KladrUpdateCommand extends ContainerAwareCommand
 
         $db = dbase_open($filename, 0); // Reading mode
         if ( !$db ) {
-            throw new Exception("Could not open dbase: $filename");
+            throw new \Exception("Could not open dbase: $filename");
         }
 
-        $entityClass       = $this->em->getClassMetadata($entity_name)->getName();
         $records_count     = dbase_numrecords($db);
         $progress_stepsize = floor($records_count / 10);
 
@@ -157,11 +169,10 @@ class KladrUpdateCommand extends ContainerAwareCommand
         );
         $this->output->writeln("  Done!");
 
-        if ( $this->dnd ) {
-            return;
+        if ( !$this->dnd ) {
+            unlink($filename);
+            unlink($tmpcsvname);
         }
-
-        //unlink($filename);
     }
 
     /**
@@ -174,12 +185,21 @@ class KladrUpdateCommand extends ContainerAwareCommand
     protected function truncateTable($entity)
     {
         $table = $this->em->getClassMetadata($entity)->getTableName();
-        $sql = "TRUNCATE TABLE $table";
-        $stmt = $this->em->getConnection()->prepare($sql);
+        $sql   = "TRUNCATE TABLE $table";
+        $stmt  = $this->em->getConnection()->prepare($sql);
 
         return $stmt->execute();
     }
 
+    /**
+     * Import CSV file with LOAD DATA INFILE command
+     *
+     * @param string $entity
+     * @param string $file
+     * @param array  $fields
+     *
+     * @return boolean
+     */
     protected function importCsv($entity, $file, $fields = '')
     {
         if ( !empty($fields) ) {
@@ -266,7 +286,7 @@ class KladrUpdateCommand extends ContainerAwareCommand
     protected function downloadArchive()
     {
         $source = self::$defaultKladrSource;
-        $destination = tempnam(sys_get_temp_dir(), 'kladr_');
+        $destination = tempnam(sys_get_temp_dir(), 'kladr_') . '.7z';
         $file_handler = fopen($destination, 'w+');
 
         // Download file
