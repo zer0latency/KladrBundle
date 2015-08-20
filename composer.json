@@ -1,0 +1,28 @@
+{
+    "name": "zer0latency/kladr-bundle",
+    "type": "symfony-bundle",
+    "description": "Provides kladr auto-updating database with form elements",
+    "keywords": ["symfony", "form", "address"],
+    "homepage": "https://github.com/zer0latency/KladrBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kolesnik Daniil",
+            "email": "dandydan2k@gmail.com",
+            "homepage": "http://dkey.info"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "symfony/form": "~2.1",
+        "symfony/framework-bundle": "~2.1",
+        "symfony/twig-bundle": "~2.1"
+    },
+    "suggest": {
+        "doctrine/doctrine-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "zer0latency\\KladrBundle": "" }
+    },
+    "target-dir": "zer0latency/KladrBundle"
+}

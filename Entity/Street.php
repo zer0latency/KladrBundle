@@ -3,14 +3,15 @@
 namespace zer0latency\KladrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use zer0latency\KladrBundle\Entity\BaseEntity;
 
 /**
  * Street
  *
- * @ORM\Table()
+ * @ORM\Table(name="kladr_street")
  * @ORM\Entity(repositoryClass="zer0latency\KladrBundle\Entity\StreetRepository")
  */
-class Street
+class Street extends BaseEntity
 {
     /**
      * @var integer
@@ -19,62 +20,62 @@ class Street
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="socr", type="string", length=255)
      */
-    private $socr;
+    protected $socr;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=30)
      */
-    private $code;
+    protected $code;
 
     /**
      * @var string
      *
      * @ORM\Column(name="post_index", type="string", length=6)
      */
-    private $postIndex;
+    protected $postIndex;
 
     /**
      * @var string
      *
      * @ORM\Column(name="gninmb", type="string", length=10)
      */
-    private $gninmb;
+    protected $gninmb;
 
     /**
      * @var string
      *
      * @ORM\Column(name="uno", type="string", length=10)
      */
-    private $uno;
+    protected $uno;
 
     /**
      * @var string
      *
      * @ORM\Column(name="ocatd", type="string", length=20)
      */
-    private $ocatd;
+    protected $ocatd;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -97,7 +98,7 @@ class Street
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -120,7 +121,7 @@ class Street
     /**
      * Get socr
      *
-     * @return string 
+     * @return string
      */
     public function getSocr()
     {
@@ -143,7 +144,7 @@ class Street
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -166,7 +167,7 @@ class Street
     /**
      * Get postIndex
      *
-     * @return string 
+     * @return string
      */
     public function getPostIndex()
     {
@@ -189,7 +190,7 @@ class Street
     /**
      * Get gninmb
      *
-     * @return string 
+     * @return string
      */
     public function getGninmb()
     {
@@ -212,7 +213,7 @@ class Street
     /**
      * Get uno
      *
-     * @return string 
+     * @return string
      */
     public function getUno()
     {
@@ -235,10 +236,31 @@ class Street
     /**
      * Get ocatd
      *
-     * @return string 
+     * @return string
      */
     public function getOcatd()
     {
         return $this->ocatd;
+    }
+
+    /**
+     * Build entity from array
+     *
+     * @param array $values
+     *
+     * @return \zer0latency\KladrBundle\Entity\Street
+     */
+    public function deserialize($values)
+    {
+        foreach ($values as $name => $value) {
+            $name = strtolower($name);
+            if ( !isset($this->$name) ) {
+                continue;
+            }
+            $methodName = "set".ucfirst($name);
+            $this->$methodName($value);
+        }
+
+        return $this;
     }
 }

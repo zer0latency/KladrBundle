@@ -3,6 +3,7 @@
 namespace zer0latency\KladrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use zer0latency\KladrBundle\Entity\BaseEntity;
 
 /**
  * Socrbase
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="zer0latency\KladrBundle\Entity\SocrbaseRepository")
  */
-class Socrbase
+class Socrbase extends BaseEntity
 {
     /**
      * @var integer
@@ -19,41 +20,41 @@ class Socrbase
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="level", type="int", length=11)
+     * @ORM\Column(name="level", type="integer")
      */
-    private $level;
+    protected $level;
 
     /**
      * @var string
      *
      * @ORM\Column(name="scname", type="string", length=255)
      */
-    private $scname;
+    protected $scname;
 
     /**
      * @var string
      *
      * @ORM\Column(name="socrname", type="string", length=255)
      */
-    private $socrname;
+    protected $socrname;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="kod_t_st", type="int", length=11)
+     * @ORM\Column(name="kod_t_st", type="integer")
      */
-    private $kod_t_st;
+    protected $kod_t_st;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -63,12 +64,12 @@ class Socrbase
     /**
      * Set level
      *
-     * @param \int $level
+     * @param integer $level
      * @return Socrbase
      */
-    public function setLevel(\int $level)
+    public function setLevel($level)
     {
-        $this->level = $level;
+        $this->level = (int) $level;
 
         return $this;
     }
@@ -76,7 +77,7 @@ class Socrbase
     /**
      * Get level
      *
-     * @return \int 
+     * @return \int
      */
     public function getLevel()
     {
@@ -99,7 +100,7 @@ class Socrbase
     /**
      * Get scname
      *
-     * @return string 
+     * @return string
      */
     public function getScname()
     {
@@ -122,7 +123,7 @@ class Socrbase
     /**
      * Get socrname
      *
-     * @return string 
+     * @return string
      */
     public function getSocrname()
     {
@@ -145,10 +146,31 @@ class Socrbase
     /**
      * Get kod_t_st
      *
-     * @return \int 
+     * @return \int
      */
     public function getKodTSt()
     {
         return $this->kod_t_st;
+    }
+
+    /**
+     * Build entity from array
+     *
+     * @param array $values
+     *
+     * @return \zer0latency\KladrBundle\Entity\Socrbase
+     */
+    public function deserialize($values)
+    {
+        foreach ($values as $name => $value) {
+            $name = strtolower($name);
+            if ( !isset($this->$name) ) {
+                continue;
+            }
+            $methodName = "set".ucfirst($name);
+            $this->$methodName($value);
+        }
+
+        return $this;
     }
 }

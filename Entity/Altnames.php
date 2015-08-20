@@ -3,14 +3,15 @@
 namespace zer0latency\KladrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use zer0latency\KladrBundle\Entity\BaseEntity;
 
 /**
  * Altnames
  *
- * @ORM\Table()
+ * @ORM\Table(name="kladr_altnames")
  * @ORM\Entity(repositoryClass="zer0latency\KladrBundle\Entity\AltnamesRepository")
  */
-class Altnames
+class Altnames extends BaseEntity
 {
     /**
      * @var integer
@@ -19,34 +20,34 @@ class Altnames
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="oldcode", type="string", length=30)
      */
-    private $oldcode;
+    protected $oldcode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="newcode", type="string", length=30)
      */
-    private $newcode;
+    protected $newcode;
 
     /**
-     * @var int
+     * @var integer
      *
-     * @ORM\Column(name="level", type="int", length=11)
+     * @ORM\Column(name="level", type="integer")
      */
-    private $level;
+    protected $level;
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,7 +70,7 @@ class Altnames
     /**
      * Get oldcode
      *
-     * @return string 
+     * @return string
      */
     public function getOldcode()
     {
@@ -92,7 +93,7 @@ class Altnames
     /**
      * Get newcode
      *
-     * @return string 
+     * @return string
      */
     public function getNewcode()
     {
@@ -102,12 +103,12 @@ class Altnames
     /**
      * Set level
      *
-     * @param \int $level
+     * @param integer $level
      * @return Altnames
      */
-    public function setLevel(\int $level)
+    public function setLevel($level)
     {
-        $this->level = $level;
+        $this->level = (int) $level;
 
         return $this;
     }
@@ -115,7 +116,7 @@ class Altnames
     /**
      * Get level
      *
-     * @return \int 
+     * @return integer
      */
     public function getLevel()
     {
