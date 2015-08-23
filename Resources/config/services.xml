@@ -13,4 +13,20 @@
         </service>
     </services>
     -->
+    
+    <parameters>
+        <parameter key="zl_kladr_bundle.autocomplete_type.class">zer0latency\KladrBundle\Form\Type\AutocompleteType</parameter>
+        <parameter key="zl_kladr_bundle.kladr_type.class">zer0latency\KladrBundle\Form\Type\KladrType</parameter>
+    </parameters>
+
+    <services>
+        <service id="zl_kladr_bundle.autocomplete_type" class="%zl_kladr_bundle.autocomplete_type.class%">
+            <argument type="service" id="doctrine"/>
+            <tag name="form.type" alias="autocomplete" />
+        </service>
+        <service id="zl_kladr_bundle.kladr_type" class="%zl_kladr_bundle.kladr_type.class%">
+            <argument type="service" id="doctrine"/>
+            <tag name="form.type" alias="kladr" />
+        </service>
+    </services>
 </container>

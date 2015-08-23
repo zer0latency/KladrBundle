@@ -3,12 +3,13 @@
 namespace zer0latency\KladrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use zer0latency\KladrBundle\Entity\BaseEntity;
 
 /**
  * Kladr
  *
- * @ORM\Table(name="kladr_kladr")
+ * @ORM\Table(name="kladr_kladr", indexes={@Index(name="name_idx", columns={"name"}), @Index(name="code_idx", columns={"code"}), @Index(name="socr_idx", columns={"socr"})})
  * @ORM\Entity(repositoryClass="zer0latency\KladrBundle\Entity\KladrRepository")
  */
 class Kladr extends BaseEntity
@@ -241,26 +242,5 @@ class Kladr extends BaseEntity
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * Build entity from array
-     *
-     * @param array $values
-     *
-     * @return \zer0latency\KladrBundle\Entity\Kladr
-     */
-    public function deserialize($values)
-    {
-        foreach ($values as $name => $value) {
-            $name = strtolower($name);
-            if ( !isset($this->$name) ) {
-                continue;
-            }
-            $methodName = "set".ucfirst($name);
-            $this->$methodName($value);
-        }
-
-        return $this;
     }
 }

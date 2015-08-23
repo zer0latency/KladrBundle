@@ -1,0 +1,36 @@
+{% block kladr_widget %}
+{% spaceless %}
+  <div class="zlkladr">
+    <div class="row">
+      <div class="col-md-4">
+      {{ form_widget(form.region) }}
+      </div>
+      <div class="col-md-8">
+      {{ form_widget(form.city) }}
+      </div>
+    </div>
+      <div class="row"><div class="col-md-12"><p></p></div></div>
+    <div class="row">
+      <div class="col-md-6">
+      {{ form_widget(form.street) }}
+      </div>
+      <div class="col-md-2">
+      {{ form_widget(form.house) }}
+      </div>
+      <div class="col-md-2">
+      {{ form_widget(form.corps) }}
+      </div>
+      <div class="col-md-2">
+      {{ form_widget(form.flat) }}
+      </div>
+    </div>
+    {{ form_widget(form.address) }}
+  </div>
+{% endspaceless %}
+  <script>
+    // We must load the script only once, even if many widgets on form
+    if ( !window.zlkladr ) {
+      document.write('<script src="{{ asset('bundles/kladr/js/zlkladr.js') }}"></sc'+'ript>');
+    }
+  </script>
+{% endblock %}

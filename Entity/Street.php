@@ -3,12 +3,13 @@
 namespace zer0latency\KladrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use zer0latency\KladrBundle\Entity\BaseEntity;
 
 /**
  * Street
  *
- * @ORM\Table(name="kladr_street")
+ * @ORM\Table(name="kladr_street", indexes={@Index(name="name_idx", columns={"name"}), @Index(name="code_idx", columns={"code"})})
  * @ORM\Entity(repositoryClass="zer0latency\KladrBundle\Entity\StreetRepository")
  */
 class Street extends BaseEntity

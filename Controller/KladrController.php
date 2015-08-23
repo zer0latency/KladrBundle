@@ -5,37 +5,123 @@ namespace zer0latency\KladrBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class KladrController extends Controller
 {
     /**
-     * @Route("/region")
+     * @Route("/kladr/region/")
      * @Template()
      */
     public function regionAction()
     {
-        return array(
-                // ...
-            );    }
+        $region = $this->getRequest()->get('region');
+        $em = $this->getDoctrine()->getManager();
+        $result = array();
+
+        $entities = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('o')
+            ->where('o.name LIKE :name')
+            ->andWhere("o.socr in ('Респ','Чувашия','край','обл','Аобл','АО')")
+            ->setParameter('name', "%$region%")
+            ->getQuery()
+            ->getResult();
+
+        foreach ($entities as $entity) {
+            $result[$entity->getCode()] = sprintf("%s %s", $entity->getName(), $entity->getSocr());
+        }
+
+        $response = new JsonResponse();
+        $response->setData($result);
+        return $response;
+    }
 
     /**
-     * @Route("/street")
+     * @Route("/kladr/city/")
+     */
+    public function cityAction()
+    {
+        $region = substr($this->getRequest()->get('region'), 0, 2);
+        $city   = $this->getRequest()->get('city');
+        $em = $this->getDoctrine()->getManager();
+        $result = array();
+
+        $entities = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('o')
+            ->where("o.name LIKE :name")
+            ->andWhere("o.code LIKE :code")
+            ->andWhere("o.socr != 'р-н'")
+            ->setParameter('name', "%$city%")
+            ->setParameter('code', "$region%")
+            ->getQuery()
+            ->getResult();
+
+        foreach ($entities as $entity) {
+            $result[$entity->getCode()] = $this->buildCityPath($entity);
+        }
+
+        $response = new JsonResponse();
+        $response->setData($result);
+        return $response;
+    }
+
+    /**
+     * @Route("/kladr/street/")
      * @Template()
      */
     public function streetAction()
     {
-        return array(
-                // ...
-            );    }
+        $city   = substr($this->getRequest()->get('city'), 0, -2);
+        $name   = $this->getRequest()->get('street');
+        $em     = $this->getDoctrine()->getManager();
+        $result = array();
+
+        $entities = $em->getRepository("KladrBundle:Street")->createQueryBuilder('o')
+            ->where('o.name LIKE :name')
+            ->andWhere("o.code LIKE :code")
+            ->setParameter('name', "%$name%")
+            ->setParameter('code', "$city%")
+            ->getQuery()
+            ->getResult();
+
+        foreach ($entities as $entity) {
+            $result[$entity->getCode()] = sprintf("%s %s",
+                $entity->getName(),
+                $entity->getSocr()
+            );
+        }
+
+        $response = new JsonResponse();
+        $response->setData($result);
+        return $response;
+    }
 
     /**
-     * @Route("/doma")
-     * @Template()
+     * Добавить район к названию нас. пункта
+     * @param KladrBundle:Kladr $entity
+     * @return type
      */
-    public function domaAction()
+    protected function buildCityPath($entity)
     {
-        return array(
-                // ...
-            );    }
+        $em = $this->getDoctrine()->getManager();
+        $code = substr($entity->getCode(), 0, 5);
+
+        $parent = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('k')
+            ->where('k.code LIKE :code')
+            ->andWhere('k.socr = :socr')
+            ->setParameter('code', "$code%")
+            ->setParameter('socr', 'р-н')
+            ->getQuery()
+            ->getResult();
+
+        if ( !count($parent) ) {
+            return $entity->getName();
+        }
+
+        return sprintf("%s %s, %s %s",
+            $parent[0]->getName(),
+            $parent[0]->getSocr(),
+            $entity->getName(),
+            $entity->getSocr()
+        );
+    }
 
 }

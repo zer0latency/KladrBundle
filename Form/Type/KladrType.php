@@ -1,0 +1,99 @@
+<?php
+
+namespace zer0latency\KladrBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+
+/**
+ * KladrType class
+ */
+class KladrType extends AbstractType
+{
+    private static $regionOptions = array(
+        'attr' => array(
+            'data-source' => '/kladr/region/',
+            'placeholder' => 'Регион',
+            'class'       => 'kladr-region',
+        ),
+        'label_render' => false,
+    );
+
+    private static $cityOptions   = array(
+        'attr' => array(
+            'data-source' => '/kladr/city/',
+            'placeholder' => 'Населенный пункт',
+            'class'       => 'kladr-city',
+        ),
+        'label_render' => false,
+    );
+
+    private static $streetOptions = array(
+        'attr' => array(
+            'data-source' => '/kladr/street/',
+            'placeholder' => 'Улица',
+            'class'       => 'kladr-street',
+        ),
+        'label_render' => false,
+    );
+
+    private static $houseOptions  = array(
+        'attr'         => array( 'placeholder' => 'Дом' ),
+        'label_render' => false,
+    );
+
+    private static $corpsOptions  = array(
+        'attr'         => array( 'placeholder' => 'Корпус' ),
+        'label_render' => false,
+        'required'     => false,
+    );
+
+    private static $flatOptions  = array(
+        'attr'         => array( 'placeholder' => 'Квартира' ),
+        'label_render' => false,
+        'required'     => false,
+    );
+
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add(
+                'region',
+                'text',
+                self::$regionOptions
+            )
+            ->add(
+                'city',
+                'text',
+                self::$cityOptions
+            )
+            ->add(
+                'street',
+                'text',
+                self::$streetOptions
+            )
+            ->add(
+                'house',
+                'text',
+                self::$houseOptions
+            )
+            ->add(
+                'corps',
+                'text',
+                self::$corpsOptions
+            )
+            ->add(
+                'flat',
+                'text',
+                self::$flatOptions)
+            ->add(
+                'address',
+                'hidden',
+                array()
+            );
+    }
+
+    public function getName()
+    {
+        return 'kladr';
+    }
+}
