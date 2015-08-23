@@ -3,6 +3,7 @@
 namespace zer0latency\KladrBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use zer0latency\KladrBundle\Form\DataTransformer\KladrTransformer;
 
 /**
  * KladrType class
@@ -89,7 +90,8 @@ class KladrType extends AbstractType
                 'address',
                 'hidden',
                 array()
-            );
+            )
+            ->addViewTransformer(new KladrTransformer());
     }
 
     public function getName()
