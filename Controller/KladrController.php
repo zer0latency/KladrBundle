@@ -48,7 +48,7 @@ class KladrController extends Controller
         $entities = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('o')
             ->where("o.name LIKE :name")
             ->andWhere("o.code LIKE :code")
-            ->andWhere("o.socr != 'р-н'")
+            ->andWhere("o.socr not in ('Респ','Чувашия','край','обл','Аобл','АО','р-н')")
             ->setParameter('name', "%$city%")
             ->setParameter('code', "$region%")
             ->getQuery()
@@ -92,6 +92,38 @@ class KladrController extends Controller
         $response = new JsonResponse();
         $response->setData($result);
         return $response;
+    }
+
+    /**
+     * @Route("/kladr/path/")
+     */
+    public function pathAction()
+    {
+        $path   = $this->getRequest()->get('address');
+        if ( !preg_match("/^.+,.*,.*,[0-9]+/", $path) ) {
+            return new JsonResponse(array( "error" => "Bad Request." ), 400);
+        }
+
+        $em     = $this->getDoctrine()->getManager();
+
+        $opts = explode(',', $path);
+        $result['house'] = $opts[0];
+        $result['corps'] = $opts[1];
+        $result['flat']  = $opts[2];
+        $streetCode      = $opts[3];
+
+        $street = $em->getRepository("KladrBundle:Street")->findOneByCode($streetCode);
+        $city = $em->getRepository("KladrBundle:Kladr")->findOneByCode((string)substr($streetCode, 0, -5).'0');
+        $region = $em->getRepository("KladrBundle:Kladr")->findOneByCode((string)substr($streetCode, 0, 2).str_repeat('0', 11));
+
+        if ( !$street OR !$city OR !$region) {
+            return new JsonResponse(array("citycode" => (string)substr($streetCode, 0, -5) + '0'));
+        }
+        $result['city'] = $this->buildCityPath($city);
+        $result['street'] = sprintf("%s %s", $street->getName(), $street->getSocr());
+        $result['region'] = sprintf("%s %s", $region->getName(), $region->getSocr());
+
+        return new JsonResponse($result);
     }
 
     /**

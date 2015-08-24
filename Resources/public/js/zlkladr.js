@@ -83,6 +83,20 @@
             }
           }, 500);
         });
+        
+        if ( inputType === 'address' && $input.val() ) {
+          $.ajax({
+            type: "POST",
+            url: '/kladr/path/',
+            data: {address: $input.val()},
+            success: function (data) {
+              $.each(data, function (key, value) {
+                widget[key].val(value);
+              });
+            },
+            dataType: 'json'
+          });
+        }
       });
     });
   };
