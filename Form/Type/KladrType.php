@@ -15,6 +15,7 @@ class KladrType extends AbstractType
             'data-source' => '/kladr/region/',
             'placeholder' => 'Регион',
             'class'       => 'kladr-region',
+            'autocomplete' => 'off',
         ),
         'label_render' => false,
     );
@@ -24,6 +25,7 @@ class KladrType extends AbstractType
             'data-source' => '/kladr/city/',
             'placeholder' => 'Населенный пункт',
             'class'       => 'kladr-city',
+            'autocomplete' => 'off',
         ),
         'label_render' => false,
     );
@@ -33,23 +35,33 @@ class KladrType extends AbstractType
             'data-source' => '/kladr/street/',
             'placeholder' => 'Улица',
             'class'       => 'kladr-street',
+            'autocomplete' => 'off',
         ),
         'label_render' => false,
     );
 
     private static $houseOptions  = array(
-        'attr'         => array( 'placeholder' => 'Дом' ),
+        'attr'         => array(
+            'placeholder' => 'Дом',
+            'autocomplete' => 'off',
+        ),
         'label_render' => false,
     );
 
     private static $corpsOptions  = array(
-        'attr'         => array( 'placeholder' => 'Корпус' ),
+        'attr'         => array(
+            'placeholder' => 'Корпус',
+            'autocomplete' => 'off',
+        ),
         'label_render' => false,
         'required'     => false,
     );
 
     private static $flatOptions  = array(
-        'attr'         => array( 'placeholder' => 'Квартира' ),
+        'attr'         => array(
+            'placeholder' => 'Квартира',
+            'autocomplete' => 'off',
+        ),
         'label_render' => false,
         'required'     => false,
     );
