@@ -112,6 +112,7 @@
             success: function (data) {
               $.each(data, function (key, value) {
                 widget[key].val(value);
+                if ( setValues[key] !== undefined ) { setValues[key] = true; }
               });
             },
             dataType: 'json'

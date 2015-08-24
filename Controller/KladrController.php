@@ -110,9 +110,9 @@ class KladrController extends Controller
         $em     = $this->getDoctrine()->getManager();
 
         $opts = explode(',', $path);
-        $result['house'] = explode(' ', $opts[0])[1];
-        $result['corps'] = explode(' ', $opts[1])[1];
-        $result['flat']  = explode(' ', $opts[2])[1];
+        $result['house'] = strstr($opts[0], ' ') ? explode(' ', $opts[0])[1] : $opts[0];
+        $result['corps'] = strstr($opts[0], ' ') ? explode(' ', $opts[0])[1] : $opts[0];
+        $result['flat']  = strstr($opts[0], ' ') ? explode(' ', $opts[0])[1] : $opts[0];
         $streetCode      = $opts[3];
 
         $street = $em->getRepository("KladrBundle:Street")->findOneByCode($streetCode);
