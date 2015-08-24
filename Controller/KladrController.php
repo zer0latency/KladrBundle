@@ -21,6 +21,7 @@ class KladrController extends Controller
 
         $entities = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('o')
             ->where('o.name LIKE :name')
+            ->andWhere("o.code LIKE '%00'")
             ->andWhere("o.socr in ('Респ','Чувашия','край','обл','Аобл','АО')")
             ->setParameter('name', "%$region%")
             ->getQuery()
@@ -48,6 +49,7 @@ class KladrController extends Controller
         $entities = $em->getRepository("KladrBundle:Kladr")->createQueryBuilder('o')
             ->where("o.name LIKE :name")
             ->andWhere("o.code LIKE :code")
+            ->andWhere("o.code LIKE '%00'")
             ->andWhere("o.socr not in ('Респ','Чувашия','край','обл','Аобл','АО','р-н')")
             ->setParameter('name', "%$city%")
             ->setParameter('code', "$region%")
@@ -77,6 +79,7 @@ class KladrController extends Controller
         $entities = $em->getRepository("KladrBundle:Street")->createQueryBuilder('o')
             ->where('o.name LIKE :name')
             ->andWhere("o.code LIKE :code")
+            ->andWhere("o.code LIKE '%00'")
             ->setParameter('name', "%$name%")
             ->setParameter('code', "$city%")
             ->getQuery()
@@ -107,13 +110,13 @@ class KladrController extends Controller
         $em     = $this->getDoctrine()->getManager();
 
         $opts = explode(',', $path);
-        $result['house'] = $opts[0];
-        $result['corps'] = $opts[1];
-        $result['flat']  = $opts[2];
+        $result['house'] = explode(' ', $opts[0])[1];
+        $result['corps'] = explode(' ', $opts[1])[1];
+        $result['flat']  = explode(' ', $opts[2])[1];
         $streetCode      = $opts[3];
 
         $street = $em->getRepository("KladrBundle:Street")->findOneByCode($streetCode);
-        $city = $em->getRepository("KladrBundle:Kladr")->findOneByCode((string)substr($streetCode, 0, -5).'0');
+        $city   = $em->getRepository("KladrBundle:Kladr")->findOneByCode((string)substr($streetCode, 0, -5).'0');
         $region = $em->getRepository("KladrBundle:Kladr")->findOneByCode((string)substr($streetCode, 0, 2).str_repeat('0', 11));
 
         if ( !$street OR !$city OR !$region) {

@@ -46,7 +46,26 @@
   var bindEvents = function () {
     $('.zlkladr').each(function (i, obj) {
       var widget = {};
+      var setValues = {
+        region: false,
+        city:   false,
+        street: false
+      };
       widget.values = {};
+
+      $('.zlkladr').parents('form').on("submit", function () {
+        for (var key in setValues) {
+          if ( !setValues[key] ) {
+            widget[key].parent()
+                    .attr('data-toggle', 'tooltip')
+                    .attr('data-placement', 'top')
+                    .attr('title', 'Значение поля должно быть выбрано из списка.')
+                    .tooltip();
+            widget[key].focus();
+            return false;
+          }
+        }
+      });
 
       $(obj).find('input').each(function (j, input) {
         var $input = $(input),
@@ -66,6 +85,7 @@
               return;
             }
             widget.values[inputType] = $t.attr('data-code');
+            setValues[inputType] = true;
             $input.val($t.html());
           });
         }

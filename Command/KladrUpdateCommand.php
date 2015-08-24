@@ -108,6 +108,9 @@ class KladrUpdateCommand extends ContainerAwareCommand
                 $this->importDbf("KladrBundle:$entity", $filename);
             } catch (\Doctrine\Common\Persistence\Mapping\MappingException $e) {
                 $this->output->writeln("    Skipping table: $filename");
+                if ( !$this->dnd ) {
+                    unlink($filename);
+                }
             }
         }
     }
