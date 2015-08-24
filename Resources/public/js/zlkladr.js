@@ -16,10 +16,10 @@
   };
   
   var buildAddrString = function (widget) {
-    return 'дом ' + widget.house.val() + 
-           + ',' + (widget.corps.val() ? "корп " + widget.corps.val() : "") +
-           + ',' + (widget.flat.val() ? "кв " + widget.flat.val() : "") +
-           ','+widget.values.street;
+    return 'дом ' + widget.house.val() 
+           + (widget.corps.val() ? ",корп " + widget.corps.val() : ",")
+           + (widget.flat.val() ? ",кв " + widget.flat.val() : ",") +
+           ',' + widget.values.street;
   };
  
   /**
