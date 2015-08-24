@@ -113,7 +113,10 @@ class KladrController extends Controller
             ->getResult();
 
         if ( !count($parent) ) {
-            return $entity->getName();
+            return sprintf("%s %s",
+                $entity->getName(),
+                $entity->getSocr()
+            );
         }
 
         return sprintf("%s %s, %s %s",
