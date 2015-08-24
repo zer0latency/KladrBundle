@@ -16,15 +16,12 @@
   };
   
   var buildAddrString = function (widget) {
-    return widget.region.val() + 
-           ',' + widget.city.val() +
-           ',' + widget.street.val() +
-           ',дом ' + widget.house.val() + 
-           (widget.corps.val() ? ",корп " + widget.corps.val() : "") +
-           (widget.flat.val() ? ",кв " + widget.flat.val() : "") +
-           '^^'+widget.values.street;
+    return 'дом ' + widget.house.val() + 
+           + ',' + (widget.corps.val() ? "корп " + widget.corps.val() : "") +
+           + ',' + (widget.flat.val() ? "кв " + widget.flat.val() : "") +
+           ','+widget.values.street;
   };
-  
+ 
   /**
    * Fetch suggestions from server
    * @returns {object}
