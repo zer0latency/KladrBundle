@@ -75,8 +75,7 @@
         widget[inputType] = $input;
 
         if ( $input.attr('data-source') ) {
-          $input.attr('data-toggle', 'dropdown')
-            .after('<ul class="dropdown-menu" aria-labelledby="'+$input.attr('id')+'"></ul>');
+          $input.after('<ul class="dropdown-menu" aria-labelledby="'+$input.attr('id')+'"></ul>');
 
           $input.parent().find('ul').click('a', function (e) {
             e.preventDefault();
@@ -87,6 +86,7 @@
             widget.values[inputType] = $t.attr('data-code');
             setValues[inputType] = true;
             $input.val($t.html());
+            $input.parent().next().find('input').focus();
           });
         }
 
