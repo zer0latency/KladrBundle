@@ -93,6 +93,22 @@
         $input.change(function () {
             widget.address.val( buildAddrString(widget) );
         });
+        
+        $input.on("focusin", function () {
+          setTimeout(function () {
+            if ( !$input.parent().hasClass('open') ) {
+              $input.parent().addClass('open');
+            }
+          }, 100);
+        }); 
+        
+        $input.on("focusout", function () {
+          setTimeout(function () {
+            if ( $input.parent().hasClass('open') ) {
+              $input.parent().removeClass('open');
+            }
+          }, 100);
+        }); 
 
         $input.keyup(function () {
           clearTimeout(runningCallback);

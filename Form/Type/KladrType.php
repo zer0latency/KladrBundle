@@ -50,7 +50,7 @@ class KladrType extends AbstractType
 
     private static $corpsOptions  = array(
         'attr'         => array(
-            'placeholder' => 'Корпус',
+            'placeholder' => 'Корп.',
             'autocomplete' => 'off',
         ),
         'label_render' => false,
@@ -59,7 +59,7 @@ class KladrType extends AbstractType
 
     private static $flatOptions  = array(
         'attr'         => array(
-            'placeholder' => 'Квартира',
+            'placeholder' => 'Кв.',
             'autocomplete' => 'off',
         ),
         'label_render' => false,
