@@ -107,7 +107,7 @@
             if ( $input.parent().hasClass('open') ) {
               $input.parent().removeClass('open');
             }
-          }, 100);
+          }, 500);
         }); 
 
         $input.keyup(function () {
