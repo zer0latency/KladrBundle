@@ -53,18 +53,19 @@
       };
       widget.values = {};
 
-      $('.zlkladr').parents('form').on("submit", function () {
-        for (var key in setValues) {
-          if ( !setValues[key] ) {
+      $('.zlkladr').parents('form').on("submit", function (e) {
+        $.each(setValues, function (key, value) {
+          if ( !value ) {
             widget[key].parent()
                     .attr('data-toggle', 'tooltip')
                     .attr('data-placement', 'top')
                     .attr('title', 'Значение поля должно быть выбрано из списка.')
                     .tooltip();
             widget[key].focus();
+            e.preventDefault();
             return false;
           }
-        }
+        });
       });
 
       $(obj).find('input').each(function (j, input) {
@@ -87,6 +88,7 @@
             setValues[inputType] = true;
             $input.val($t.html());
             $input.parent().next().find('input').focus();
+            $("button[type=submit]").removeAttr('disabled');
           });
         }
 
