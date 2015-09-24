@@ -20,11 +20,13 @@ Bundle для Symfony 2.X для включения виджета kladr в Ва
 * `dbase.so` - Необходимое расширение PHP для работы с таблицами DBF (Уставнавливается спомощю `pecl install dbase`)
 * `LOAD DATA INFILE` - Текущий вариант загрузки данных (отсюда следует, что bundle совместим только с MySQL), т. к. самый быстрый
 * `mysqld` имеет доступ для чтения `/tmp/*` (см. конфигурацию apparmor - `/etc/apparmor.d/usr.sbin.mysqld`)
+
 ## Использование
 Перед использованием незабудьте выполнить `php app/console doctrine:schema:update` для создания таблиц.
-`php app/console kladr:update` - Вариант команды с загрузкой файла Base.7z из Интернета
-`php app/console kladr:update --file='./Base.7z'` - Использовать уже загруженный файл.
-`php app/console kladr:update --directory='/tmp'` - Искать DBF-файлы в указанной директории.
+
+* `php app/console kladr:update` - Вариант команды с загрузкой файла Base.7z из Интернета
+* `php app/console kladr:update --file='./Base.7z'` - Использовать уже загруженный файл.
+* `php app/console kladr:update --directory='/tmp'` - Искать DBF-файлы в указанной директории.
 
 Так же, необходимо добавить роутинг:
 `app/config/routing.yml`
