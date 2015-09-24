@@ -32,7 +32,7 @@
     if (!dataSource) {
       return;
     }
-    
+
     $.ajax({
       type: "POST",
       url: dataSource,
@@ -81,13 +81,16 @@
           $input.parent().find('ul').click('a', function (e) {
             e.preventDefault();
             var $t = $(e.target);
+            console.log($t.attr('data-code'));
             if ( !$t.attr('data-code') ) {
               return;
             }
             widget.values[inputType] = $t.attr('data-code');
             setValues[inputType] = true;
             $input.val($t.html());
+            console.log(widget.values);
             $input.parent().next().find('input').focus();
+            widget.address.val( buildAddrString(widget) );
             $("button[type=submit]").removeAttr('disabled');
           });
         }
@@ -118,6 +121,7 @@
             if (widget.values[inputType] !== $input.val()) {
               widget.values[inputType] = $input.val();
               fetchSuggestions($input, widget);
+              if (setValues[inputType] === true) setValues[inputType] = false;
             }
           }, 500);
         });
