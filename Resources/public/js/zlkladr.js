@@ -61,6 +61,7 @@
                     .attr('data-placement', 'top')
                     .attr('title', 'Значение поля должно быть выбрано из списка.')
                     .tooltip();
+            widget[key].parents('div.form-group').addClass('has-error');
             widget[key].focus();
             e.preventDefault();
             return false;
@@ -89,6 +90,7 @@
             $input.val($t.html());
             $input.parent().next().find('input').focus();
             widget.address.val( buildAddrString(widget) );
+            $input.parents('div.form-group').removeClass('has-error');
             $("button[type=submit]").removeAttr('disabled');
           });
         }
