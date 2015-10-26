@@ -51,7 +51,7 @@ class KladrController extends Controller
             ->where("o.name LIKE :name")
             ->andWhere("o.code LIKE :code")
             ->andWhere("o.code LIKE '%00'")
-            ->andWhere("o.socr not in ('Респ','Чувашия','край','обл','Аобл','АО','р-н')")
+            ->andWhere("o.socr not in ('Респ','- Чувашия','край','обл','Аобл','АО','р-н')")
             ->setParameter('name', "%$city%")
             ->setParameter('code', "$region%")
             ->getQuery()
