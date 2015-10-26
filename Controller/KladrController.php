@@ -23,7 +23,7 @@ class KladrController extends Controller
             ->where('o.name LIKE :name')
             ->andWhere("o.code LIKE '%00'")
             ->andWhere("o.code in ('2300000000000', '6100000000000', '3400000000000', '3000000000000')")
-            ->andWhere("o.socr in ('Респ','Чувашия','край','обл','Аобл','АО')")
+            ->andWhere("o.socr in ('Респ','- Чувашия','край','обл','Аобл','АО')")
             ->setParameter('name', "%$region%")
             ->getQuery()
             ->getResult();
