@@ -101,7 +101,11 @@ class KladrType extends AbstractType
             ->add(
                 'address',
                 'hidden',
-                array()
+                array(
+                    'attr' => array(
+                        'conditions' => empty($options['attr']['conditions']) ? null : $options['attr']['conditions']
+                    )
+                )
             )
             ->addViewTransformer(new KladrTransformer());
     }
