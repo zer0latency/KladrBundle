@@ -54,6 +54,9 @@
       widget.values = {};
 
       $('.zlkladr').parents('form').on("submit", function (e) {
+        if ($('.zlkladr').parents('.form-group').css('display') === 'none') {
+          return;
+        }
         $.each(setValues, function (key, value) {
           if ( !value ) {
             widget[key].parent()
